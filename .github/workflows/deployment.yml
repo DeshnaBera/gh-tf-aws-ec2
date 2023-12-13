@@ -15,10 +15,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.7
-          backend-config: |
-            bucket = "mytf-state-file"
-            key    = "terraform.tfstate"
-            region = "us-east-1"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -31,7 +27,7 @@ jobs:
         run: terraform init
 
       - name: Generate Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan
 
   review:
     runs-on: ubuntu-latest
@@ -45,13 +41,9 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.7
-          backend-config: |
-            bucket = "mytf-state-file"
-            key    = "terraform.tfstate"
-            region = "us-east-1"
 
       - name: Review Terraform Plan
-        run: terraform show terraform/tfplan
+        run: terraform show 
 
   apply:
     runs-on: ubuntu-latest
@@ -61,10 +53,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.7
-          backend-config: |
-            bucket = "mytf-state-file"
-            key    = "terraform.tfstate"
-            region = "us-east-1"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -74,7 +62,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy EC2 Instance
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve 
 
 #      - name: Show Outputs
 #        run: terraform show
