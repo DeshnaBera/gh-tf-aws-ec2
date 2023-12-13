@@ -27,7 +27,7 @@ jobs:
         run: terraform init
 
       - name: Generate Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan
 
   review:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.7
-          
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -53,7 +53,7 @@ jobs:
         run: terraform init
 
       - name: Review Terraform Plan
-        run: terraform show 
+        run: terraform show tfplan
 
   apply:
     runs-on: ubuntu-latest
@@ -72,7 +72,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy EC2 Instance
-        run: terraform apply -auto-approve 
+        run: terraform apply -auto-approve tfplan
 
 #      - name: Show Outputs
 #        run: terraform show
