@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Review Terraform Plan
-        run: terraform show tfplan
+        run: terraform show terraform/tfplan
 
   apply:
     runs-on: ubuntu-latest
